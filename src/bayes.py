@@ -10,11 +10,11 @@ DEBUG = False
 if ("-d" in sys.argv):
     DEBUG = True
 
-
 # import data
-#filehandler.get_data("mypath", sep=False)
+dataset = filehandler.get_data("mypath", sep=False)
 
 # create result folder
+path = None #in case of debug
 if(DEBUG == False):
     path = "result/test_" + str(time.time())
     os.makedirs(path, exist_ok=True)
