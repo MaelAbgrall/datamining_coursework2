@@ -11,7 +11,7 @@ def import_csv(path):
     Arguments:
       path {string} -- path to the csv file
     Returns:
-      data_frame -- pandas.dataframe
+      data -- numpy array
     """
     print('importing', path)
     start_time = time.time()
@@ -42,45 +42,79 @@ def split_dataset(number_subset, dataset):
         the list of sets is segmented as following:
         [(x_train, y_train, x_val, y_val), ...]
     """
-    subset_list =  numpy.array_split(dataset, number_subset)
-
-    #for position in range(number_subset):
-    
-    #element = [subset for position, subset in subset_list if position!=3]
-    
+    # we split our dataset in a list of small sets
+    small_batch =  numpy.array_split(dataset, number_subset)
+    # each of the element of this list is a dataset: small_batch[0] is the subset 0 with the X and Y
 
     set_list = []
+    # for each subset we want to create
     for set_number in range(number_subset):
         x_train = []
         y_train = []
         x_validation = []
         y_validation = []
+
+        # we will add every small set created earlier and use the set at [position] as validation set
+        """
+            batch a
+            batch b
+            batch c
+            batch d
+
+            subset 1 = b + c + d
+            subset 2 = a + c + d
+            subset 3 = a + b + d
+            subset 4 = a + b + c
+        """
+
         for position in range(number_subset):
+
             if(position == set_number):
-                x_validation.append(subset_list[position][:, 1].tolist())
-                y_validation.append(subset_list[position][:, 0].tolist())
+                x_validation.append(small_batch[position][:, 1].tolist())
+                y_validation.append(small_batch[position][:, 0].tolist())
+                import ipdb; ipdb.set_trace()
 
             if(position != set_number):
-                x_train.append(subset_list[position][:, 1].tolist())
-                y_train.append(subset_list[position][:, 0].tolist())
+                x_train.append(small_batch[position][:, 1].tolist())
+                y_train.append(small_batch[position][:, 0].tolist())
         
         set_list.append( 
             (numpy.concatenate(x_train), numpy.concatenate(y_train), numpy.concatenate(x_validation), numpy.concatenate(y_validation))
             )
     return set_list
 
-def get_data(path, number_subset=10, sep=True):
-    """
-    gets the data from the csv file
-    if sep = False the data won't be split into training and testing data
-    """
-    data_set = import_csv(path)
-    data_list = split_dataset(number_subset, data_set)
-
-    for position in range(number_subset):
-        (x_train, y_train, x_validation, y_validation) = data_list[position]
+def classic_split(dataset, percentage):
+    """split a dataset only in two (no cross validation)
     
-    if (sep):
-        return (x_train, y_train, x_validation, y_validation)
+    Arguments:
+        dataset {numpy array} -- 
+        percentage {float} -- eg: 0.75 for 75%
+    """
 
-    return (numpy.concatenate((x_train, x_validation)), numpy.concatenate((y_train, y_validation)))
+    size = dataset.shape[0]
+    split_position = int(size * percentage)
+
+    # we will take all images and put them in train set, when we arrive at 75% of the dataset, 
+    #     the remaining images will be put in the validation set
+    x_train = []
+    y_train = []
+    x_validation = []
+    y_validation = []
+    import ipdb; ipdb.set_trace()
+    for position in range(size):
+        # if we are below 75%
+        if(position <= split_position):
+            x_train.append(dataset[position, 1])
+            y_train.append(dataset[position, 0])
+        
+        # if we added 75% of the dataset in train:
+        if (position > split_position):
+            x_validation.append(dataset[position, 1])
+            y_validation.append(dataset[position, 0])
+
+    x_train = numpy.array(x_train)
+    y_train = numpy.array(y_train)
+    x_validation = numpy.array(x_validation)
+    y_validation = numpy.array(y_validation)
+
+    return (x_train, y_train, x_validation, y_validation)

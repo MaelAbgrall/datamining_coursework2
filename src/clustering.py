@@ -7,6 +7,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+import sklearn.cluster as skcluster
+
 # project files
 import utils.filehandler as filehandler
 
@@ -16,7 +18,8 @@ if ("-d" in sys.argv):
     DEBUG = True
 
 # import data
-dataset = filehandler.get_data("mypath", sep=False)
+dataset = filehandler.import_csv('../fer2018/fer2018.csv')
+(x_train, y_train, x_validation, y_validation) = filehandler.classic_split(dataset, 0.75)
 
 # create result folder
 path = None #in case of debug
@@ -34,3 +37,4 @@ if(DEBUG == False):
     #plt.ylabel('Loss')
     #plt.xlabel('Iterations')
     #plt.savefig(path + "loss.png")
+    pass
