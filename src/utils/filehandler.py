@@ -100,7 +100,7 @@ def classic_split(dataset, percentage):
     y_train = []
     x_validation = []
     y_validation = []
-    import ipdb; ipdb.set_trace()
+    
     for position in range(size):
         # if we are below 75%
         if(position <= split_position):
