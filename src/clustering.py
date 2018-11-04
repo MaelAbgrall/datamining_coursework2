@@ -4,7 +4,7 @@ import sys
 
 # libs
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 import view.plot as viewer
@@ -32,7 +32,7 @@ if(DEBUG == False):
     path = "result/test_" + str(time.time())
     os.makedirs(path, exist_ok=True)
 
-
+print("start fit")
 kmean = skcluster.KMeans(n_clusters=Kcluster)
 start = time.time()
 kmean.fit(x_train)

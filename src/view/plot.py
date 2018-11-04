@@ -24,8 +24,7 @@ def disp_confusion_matrix(num_attr, predictions, actual):
     plt.show()
     #plt.clf()
     return confusion_mat
-
-    
+ 
 def disp_accuracy_hist(num_attr, cm, predictions, actual):
     """
     displays the accuracy histogram
@@ -47,14 +46,11 @@ def disp_accuracy_hist(num_attr, cm, predictions, actual):
     plt.show()
     #plt.clf()
 
-
 def accuracy_plots(num_attr, predictions, actual):
     """
     displays the confusion matrix and the accuracy histogram
     """
     disp_accuracy_hist(num_attr, disp_confusion_matrix(num_attr, predictions, actual), predictions, actual)
-
-
 
 def edit_hist_bar(bar_list, color, label):
     """
@@ -66,7 +62,6 @@ def edit_hist_bar(bar_list, color, label):
     i = 1
     for i in range(len(bar_list)):
         bar_list[i].set_facecolor(color)
-
 
 def disp_acc_summary(dct):
     """
@@ -86,3 +81,15 @@ def disp_acc_summary(dct):
     plt.legend(loc='upper left')
     plt.show()
     plt.clf()
+
+def overall_accuracy(dct, num_attr, predictions, actual):
+    """
+    Calculates overall accuracy and adds it to the dictionary
+    """
+    total = len(predictions)
+    correct_count = (predictions == actual).sum()
+    print("%d out of %d" % (correct_count, total))
+    accuracy = (correct_count / total)
+    print("%0.03f%% correctly predicted" % (accuracy * 100))
+    dct[num_attr] = accuracy
+    return accuracy
