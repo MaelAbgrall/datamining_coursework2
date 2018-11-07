@@ -118,3 +118,128 @@ def classic_split(dataset, percentage):
     y_validation = numpy.array(y_validation)
 
     return (x_train, y_train, x_validation, y_validation)
+
+def balance_dataset(dataset, percentage):
+    
+    # first we count and rank the number of samples for each class
+    class_happy = 0
+    class_sad = 0
+    class_angry = 0
+    class_disgust = 0
+    class_fear = 0
+    class_neutral = 0
+    class_surprise = 0
+    for position in range (dataset.shape[0]):
+        if(dataset[position, 0] == 0):
+            class_angry += 1
+        if(dataset[position, 0] == 1):
+            class_disgust += 1
+        if(dataset[position, 0] == 2):
+            class_fear += 1
+        if(dataset[position, 0] == 3):
+            class_happy += 1
+        if(dataset[position, 0] == 4):
+            class_sad += 1
+        if(dataset[position, 0] == 5):
+            class_surprise += 1
+        if(dataset[position, 0] == 6):
+            class_neutral += 1
+
+    rank = [class_angry, class_disgust, class_fear, class_happy, class_sad, class_surprise, class_neutral]
+    rank.sort()
+    print("happy:.....", class_happy)
+    print("sad:.......", class_sad)
+    print("angry:.....", class_angry)
+    print("disgust:...", class_disgust)
+    print("fear:......", class_fear)
+    print("neutral:...", class_neutral)
+    print("surprise:..", class_surprise)
+
+    # then we split the dataset in 75% based on the smallest number of sample
+    balance_x_train = []
+    balance_y_train = []
+    balance_x_val = []
+    balance_y_val = []
+
+    smallest_dataset = int(rank[0] * percentage)
+
+    angry = 0
+    disgust = 0
+    fear = 0
+    happy = 0
+    sad = 0
+    surprise  = 0
+    neutral  = 0
+
+    for position in range (dataset.shape[0]):
+        if(dataset[position, 0] == 0 and angry<smallest_dataset):
+            angry += 1
+            balance_x_train.append(dataset[position, 1])
+            balance_y_train.append(dataset[position, 0])
+        if(dataset[position, 0] == 0 and angry>=smallest_dataset):
+            angry += 1
+            balance_x_val.append(dataset[position, 1])
+            balance_y_val.append(dataset[position, 0])
+            
+        if(dataset[position, 0] == 1 and disgust<smallest_dataset):
+            disgust += 1
+            balance_x_train.append(dataset[position, 1])
+            balance_y_train.append(dataset[position, 0])
+        if(dataset[position, 0] == 0 and disgust>=smallest_dataset):
+            disgust += 1
+            balance_x_val.append(dataset[position, 1])
+            balance_y_val.append(dataset[position, 0])
+            
+        if(dataset[position, 0] == 2 and fear<smallest_dataset):
+            fear += 1
+            balance_x_train.append(dataset[position, 1])
+            balance_y_train.append(dataset[position, 0])
+        if(dataset[position, 0] == 2 and fear>=smallest_dataset):
+            fear += 1
+            balance_x_val.append(dataset[position, 1])
+            balance_y_val.append(dataset[position, 0])
+            
+        if(dataset[position, 0] == 3 and happy<smallest_dataset):
+            happy += 1
+            balance_x_train.append(dataset[position, 1])
+            balance_y_train.append(dataset[position, 0])
+        if(dataset[position, 0] == 3 and happy>=smallest_dataset):
+            happy += 1
+            balance_x_val.append(dataset[position, 1])
+            balance_y_val.append(dataset[position, 0])
+            
+        if(dataset[position, 0] == 4 and sad<smallest_dataset):
+            sad += 1
+            balance_x_train.append(dataset[position, 1])
+            balance_y_train.append(dataset[position, 0])
+        if(dataset[position, 0] == 4 and sad>=smallest_dataset):
+            sad += 1
+            balance_x_val.append(dataset[position, 1])
+            balance_y_val.append(dataset[position, 0])
+            
+        if(dataset[position, 0] == 5 and surprise<smallest_dataset):
+            surprise += 1
+            balance_x_train.append(dataset[position, 1])
+            balance_y_train.append(dataset[position, 0])
+        if(dataset[position, 0] == 5 and surprise>=smallest_dataset):
+            surprise += 1
+            balance_x_val.append(dataset[position, 1])
+            balance_y_val.append(dataset[position, 0])
+            
+        if(dataset[position, 0] == 6 and neutral<smallest_dataset):
+            neutral += 1
+            balance_x_train.append(dataset[position, 1])
+            balance_y_train.append(dataset[position, 0])
+        if(dataset[position, 0] == 6 and neutral>=smallest_dataset):
+            neutral += 1
+            balance_x_val.append(dataset[position, 1])
+            balance_y_val.append(dataset[position, 0])
+    
+    balance_x_train = numpy.array(balance_x_train)
+    balance_y_train = numpy.array(balance_y_train)
+    balance_x_val = numpy.array(balance_x_val)
+    balance_y_val = numpy.array(balance_y_val)
+    print("train balanced:", balance_x_train.shape[0])
+    print("validation set:", balance_x_val.shape[0])
+
+    return (balance_x_train, balance_y_train, balance_x_val, balance_y_val)
