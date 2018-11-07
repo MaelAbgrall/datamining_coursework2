@@ -29,7 +29,6 @@ def get_preds(model, X_train, X_test):
     
     return predictions
     
-<<<<<<< HEAD
 def get_preds_fitpred(model, X_train, X_test):
     """
     Runs the KNN algorithm and returns predictions
@@ -45,8 +44,6 @@ def get_preds_fitpred(model, X_train, X_test):
     print(time.time() - start_time, "seconds to predict the classes")
     
     return predictions
-=======
->>>>>>> 95df919585bfba1215ee21593950e4d422c672b7
 
 def get_k_best(X, y, k):
     """
