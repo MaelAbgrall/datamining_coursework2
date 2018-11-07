@@ -131,10 +131,10 @@ train, val = balance_dataset(dataset, 0.75)
 train = pandas.DataFrame(train, columns=["y_train", "x_train"])
 val = pandas.DataFrame(val, columns=["y_val", "x_val"])
 
-train.to_csv("balanced_train_75percent", encoding='utf-8', index=False)
-val.to_csv("balanced_validation_75percent", encoding='utf-8', index=False)
+train.to_csv("balanced_train_75percent.csv", encoding='utf-8', index=False)
+val.to_csv("balanced_validation_75percent.csv", encoding='utf-8', index=False)
 
 train, _ = balance_dataset(dataset, 1.)
 train = pandas.DataFrame(train, columns=["y_train", "x_train"])
 
-train.to_csv("balanced_100percent", encoding='utf-8', index=False)
+train.to_csv("balanced_100percent.csv", encoding='utf-8', index=False)
